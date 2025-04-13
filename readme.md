@@ -1,101 +1,80 @@
-Step one:
-1. adding html code.
-Reference used for html:
-https://gist.github.com/crismo/453b20a75e1bd876db1006061b7dbbcf 
-2. styling the general body and heading
+### **Step 1: Initial Setup**
+1. Added basic HTML structure based on a reference from [this Gist](https://gist.github.com/crismo/453b20a75e1bd876db1006061b7dbbcf).  
+2. Styled the general body and heading to improve appearance and layout.
 
-Step two:
-1. Import example.json to understand the data structure.
+---
 
-2. Created the Game class to represent the JSON data structure, including properties like title, designer, and playCount, along with methods such as incrementPlayCount, updateRating, and getDetails.
+### **Step 2: Game Class and Data Integration**
+1. Imported `example.json` to understand the structure of the data.  
+2. Created the `Game` class with properties like `title`, `designer`, and `playCount`, and methods like `incrementPlayCount()`, `updateRating()`, and `getDetails()`.  
+3. Placed the class in `models/Game.mjs` and exported it as the default export for reusability.  
+4. Imported the class into `app.mjs`, created instances using the JSON data, and tested features like updating ratings and incrementing play counts.
 
-3. Placed it in a models subfolder (models/Game.mjs) and exported it as the default export for reuse.
+---
 
-4. Imported the class in app.mjs, used data from example.json to create Game instances, and demonstrated features like updating ratings and incrementing play counts.
+### **Step 3: Storage and Data Handling**
+1. Created a function to save a game to `localStorage`.  
+2. Added a function to retrieve all saved games from `localStorage`.  
+3. Implemented a function to export all current games as JSON.  
+4. Created a function to import JSON data and store the games in `localStorage`.
 
-Step three:
-Following the tasks:
-1. Create a save function that saves a game to localStorage.
-2. Create a function that retrieves all games that are saved in localStorage.
-3. Create a function that outputs all the games as JSON
-4. Create a function that can import the mentioned JSON and save all the games to localStorage
+---
 
-Step four:
-1. Saved Games to Local Storage
-A function was created to store each game in the browser's localStorage, using the game's title as the key for easy retrieval.
+### **Step 4: File Input and Export Features**
+1. Saved each game to `localStorage` using its title as the key.  
+2. Loaded all saved games from `localStorage` into an in-memory list called `games`.  
+3. Converted all stored games into JSON format for exporting.  
+4. Added functionality to import games from a JSON file and store them in `localStorage`.  
+5. Used the FileReader API to read and parse uploaded JSON files.  
+6. Included a file input in the UI to enable file uploads.  
+7. Maintained an in-memory list of games for display and app logic.  
+8. Removed the hardcoded default example (like “Catan”) to allow dynamic game input.  
+9. Added a download feature for exporting the games list as a JSON file.
 
-2. Loaded Games from Local Storage
-A function was implemented to load all saved games from localStorage into an in-memory list called games, making them available for use in the app.
+---
 
-3. Exported Games as JSON
-A function was added to convert all saved games into JSON format, making it easy to share or store the data externally.
+### **Step 5: Displaying Games in the UI**
+1. Created a `displayGames()` function to visually render each game as a card with details such as title, designer, year, play time, difficulty, play count, and rating.  
+2. Included a rating slider and a "Play" button on each card.  
+3. Ensured the UI updates automatically whenever the `games` array is modified.  
+4. Required a `<div id="gamesContainer"></div>` in `index.html` to hold the game cards.  
+5. Demonstrated functionality by adding a sample game (e.g., “Catan”) using `addNewGame()` and rendering it with `displayGames()`.
 
-4. Imported Games from JSON
-Functionality was added to read a JSON file and store its game data into localStorage.
+---
 
-5. Used a File Reader
-The FileReader API was used to read uploaded JSON files and extract game data to be added to the app.
+### **Step 6: Interactivity and Dynamic IDs**
+1. Added event listeners for each card's "Play" button to increment play count and update `localStorage`.  
+2. Added real-time event listeners on the rating slider to update personal ratings and sync changes with `localStorage`.  
+3. Assigned dynamic IDs to each card element based on its index in the `games` array.  
+4. Ensured `displayGames()` attaches the correct event listeners after rendering.
 
-6. Added a File Input
-A file input element was added to the app interface, allowing users to upload JSON files containing game data.
+---
 
-7. Kept a List of Games in Memory
-The app was designed to maintain an in-memory list of all current games for easy access and display.
+### **Step 7: Core Features Recap**
+1. Implemented full support for saving, retrieving, exporting, and importing games using `localStorage` and JSON.  
+2. Enabled dynamic UI updates reflecting changes to play count and personal rating.  
+3. Allowed users to add new games through a form in the app.
 
-8. Removed Hardcoded Example
-The default hardcoded example game (e.g., "Catan") was removed, allowing users to add any game dynamically.
+---
 
-9. Made Exporting Easy
-A download feature was added to export all current games as a JSON file, enabling users to save them to their device.
+### **Step 8: Feature Enhancements**
+1. Enhanced game management through JSON import/export and persistent storage.  
+2. Continued support for real-time UI updates and user interactions.  
+3. Improved user input flexibility by allowing dynamic game additions via the interface.
 
-Step five:
-1. Added a Function to Display Games (displayGames)
-A function was created to dynamically generate and display each game in the games array. Each game is shown as a visual card containing details such as title, designer, artist, publisher, year, number of players, play time, difficulty, play count, and personal rating.
-Each card also includes a range input for adjusting the rating and a "Play" button to increase the play count.
+---
 
-2. Updated the UI After Changes
-The displayGames function is called whenever the games array is modified, such as after adding a new game or importing games from a JSON file. This keeps the user interface in sync with the current data.
+### **Step 9: Game Deletion Feature**
+1. Integrated a form in `index.html` for users to add new games.  
+2. Added a "Delete" button to each game card to remove games from both the UI and `localStorage`.  
+3. Ensured the UI reflects all additions and deletions dynamically.
 
-3. Ensured Compatibility with index.html
-The displayGames function relies on a <div id="gamesContainer"></div> being present in the index.html file. This container is required for rendering the game cards on the page.
+---
 
-4. Example Usage
-A sample game (e.g., "Catan") is added dynamically using the addNewGame function. The displayGames function is then called to render the game visually in the browser.
+### **Step 10: JSON Fetching and Error Handling**
+1. Introduced `fetchGamesData()` to load and parse `example.json`.  
+2. Mapped the fetched data to create `Game` instances and stored them in `localStorage`.  
+3. Called `displayGames()` after loading data to show games in the UI.  
+4. Included error handling to catch and log issues during data fetch or processing.
 
-Step six
-1. Added Event Listeners for Play Button and Rating Slider
-The "Play" button increases the play count, updates the UI, and saves the change to localStorage.
-The rating slider updates the personal rating in real time and stores the new value in localStorage.
-
-2. Used Dynamic IDs for Elements
-Each game card element, such as the play count display and rating slider, is assigned a unique ID based on the game’s index in the games array.
-This allows event listeners to correctly target and update the specific elements for each game.
-
-3. UI Updates with displayGames
-The displayGames function not only renders the game cards but also attaches all necessary event listeners for interactivity.
-nsures that all game data and user actions are reflected in both the interface and localStorage.
-
-
-Step seven
-1. Save, Retrieve, Export, and Import Games:
-Games are saved to and retrieved from localStorage.
-
-2. Games can be exported as JSON or imported from a JSON file.
-Dynamic UI Updates:
-Games are displayed dynamically in the UI.
-
-3. Play count and personal rating can be updated interactively.
-Add New Games:
-Users can add new games dynamically, and the UI updates accordingly.
-
-Step eight
-1. Save, Retrieve, Export, and Import Games:
-Games are saved to and retrieved from localStorage.
-Games can be exported as JSON or imported from a JSON file.
-
-2. Dynamic UI Updates:
-Games are displayed dynamically in the UI.
-Play count and personal rating can be updated interactively.
-
-3. Add New Games:
-Users can add new games dynamically using the form in index.html.
+---

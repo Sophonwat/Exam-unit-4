@@ -6,10 +6,6 @@ import Game from './models/Game.mjs';
 // In-memory array to store all games
 let games = [];
 
-// Populate the in-memory games array when the application loads
-games = getAllGamesFromLocalStorage();
-console.log("Games loaded from localStorage:", games);
-
 // Function to save a single game to localStorage
 function saveGameToLocalStorage(game) {
     localStorage.setItem(game.title, JSON.stringify(game));
@@ -40,54 +36,6 @@ function getAllGamesFromLocalStorage() {
     return games;
 }
 
-// Function to export all games as JSON
-function exportGamesAsJSON() {
-    const gamesObject = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const gameData = JSON.parse(localStorage.getItem(key));
-        if (gameData && gameData.title) {
-            gamesObject[key] = gameData;
-        }
-    }
-    return JSON.stringify(gamesObject, null, 2);
-}
-
-// Function to import JSON and save all games to localStorage
-function importGamesFromJSON(jsonString) {
-    const gamesObject = JSON.parse(jsonString); // Parse the JSON string into an object
-    for (const key in gamesObject) {
-        if (gamesObject.hasOwnProperty(key)) {
-            const game = gamesObject[key]; // Get each game object
-            localStorage.setItem(key, JSON.stringify(game)); // Save each game to localStorage using its title as the key
-        }
-    }
-    // Update the in-memory games array
-    games = getAllGamesFromLocalStorage();
-    displayGames(); // Update the UI
-}
-
-// Function to handle file input and import JSON
-function handleFileImport(event) {
-    const file = event.target.files[0]; // Get the selected file
-    if (!file) {
-        console.error("No file selected.");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const fileContent = e.target.result; // Read the file content
-        try {
-            importGamesFromJSON(fileContent); // Import the JSON data into localStorage
-            console.log("Games imported successfully:", games);
-        } catch (error) {
-            console.error("Error importing games:", error);
-        }
-    };
-    reader.readAsText(file); // Read the file as text
-}
-
 // Function to dynamically add a new game
 function addNewGame(title, designer, artist, publisher, year, players, time, difficulty, url, playCount, personalRating) {
     const newGame = new Game(title, designer, artist, publisher, year, players, time, difficulty, url, playCount, personalRating);
@@ -97,16 +45,11 @@ function addNewGame(title, designer, artist, publisher, year, players, time, dif
     displayGames(); // Update the UI
 }
 
-// Function to download exported games as a JSON file
-function downloadGamesAsJSON() {
-    const gamesJSON = exportGamesAsJSON();
-    const blob = new Blob([gamesJSON], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "games.json";
-    a.click();
-    URL.revokeObjectURL(url);
+// Function to delete a game from localStorage and the UI
+function deleteGame(title) {
+    localStorage.removeItem(title); // Remove from localStorage
+    games = getAllGamesFromLocalStorage(); // Update in-memory array
+    displayGames(); // Refresh UI
 }
 
 // Function to display all games in the UI
@@ -133,6 +76,7 @@ function displayGames() {
             <p><strong>Personal Rating:</strong> <span id="ratingValue-${index}">${game.personalRating}</span></p>
             <input type="range" min="1" max="10" value="${game.personalRating}" class="rating-slider" id="ratingSlider-${index}" />
             <button class="play-button" id="playButton-${index}">Play</button>
+            <button class="delete-button" id="deleteButton-${index}">Delete</button>
         `;
 
         // Append the game card to the container
@@ -153,44 +97,16 @@ function displayGames() {
             document.getElementById(`ratingValue-${index}`).textContent = game.personalRating; // Update UI
             saveGameToLocalStorage(game); // Update localStorage
         });
+
+        // Add event listener for the "Delete" button
+        const deleteButton = document.getElementById(`deleteButton-${index}`);
+        deleteButton.addEventListener("click", () => {
+            deleteGame(game.title); // Delete the game
+        });
     });
 }
 
-// Add event listener to the "Add Game" form
-document.getElementById("addGameForm").addEventListener("submit", (event) => {
-    event.preventDefault(); // Prevent the form from refreshing the page
-
-    // Get form values
-    const title = document.getElementById("title").value;
-    const designer = document.getElementById("designer").value;
-    const artist = document.getElementById("artist").value;
-    const publisher = document.getElementById("publisher").value;
-    const year = parseInt(document.getElementById("year").value, 10);
-    const players = document.getElementById("players").value;
-    const time = document.getElementById("time").value;
-    const difficulty = document.getElementById("difficulty").value;
-    const url = document.getElementById("url").value;
-    const playCount = parseInt(document.getElementById("playCount").value, 10);
-    const personalRating = parseInt(document.getElementById("personalRating").value, 10);
-
-    // Add the new game
-    addNewGame(title, designer, artist, publisher, year, players, time, difficulty, url, playCount, personalRating);
-
-    // Clear the form
-    event.target.reset();
-});
-
-// Example usage of exporting games
-downloadGamesAsJSON();
-
-// Add event listener to the file input element
-document.getElementById("importSource").addEventListener("change", handleFileImport);
-
-// Display games on page load
-displayGames();
-
-/*
-// Fetch and process the games data
+// Function to fetch games data from example.json
 async function fetchGamesData() {
     const response = await fetch('./example.json');
     if (!response.ok) {
@@ -199,11 +115,10 @@ async function fetchGamesData() {
     return await response.json();
 }
 
-/*
-//fetch and process the games data
+// Fetch and process the games data
 fetchGamesData()
     .then(gamesData => {
-        const games = gamesData.map(game => new Game(
+        games = gamesData.map(game => new Game(
             game.title,
             game.designer,
             game.artist,
@@ -216,7 +131,16 @@ fetchGamesData()
             game.playCount,
             game.personalRating
         ));
-*/
+
+        // Save each game to localStorage
+        games.forEach(game => saveGameToLocalStorage(game));
+
+        // Display games on page load
+        displayGames();
+    })
+    .catch(error => {
+        console.error("Error fetching games data:", error);
+    });
 
 /*
 // Example of using the methods to update play count and rating

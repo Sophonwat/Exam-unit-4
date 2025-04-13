@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Manager</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Game Manager</h1>
@@ -46,10 +47,15 @@
         <button type="submit">Add Game</button>
     </form>
 
-    <!-- File input for importing JSON -->
+    <h2>Sort Games</h2>
+    <select id="sortCriteria">
+        <option value="playCount">Play Count</option>
+        <option value="rating">Rating</option>
+        <option value="difficulty">Difficulty</option>
+    </select>
+
     <input type="file" id="importSource" />
 
-    <!-- Container for displaying games -->
     <div id="gamesContainer"></div>
 
     <script type="module" src="./app.mjs"></script>
