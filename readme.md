@@ -47,3 +47,4 @@ The default hardcoded example game (e.g., "Catan") was removed, allowing users t
 
 9. Made Exporting Easy
 A download feature was added to export all current games as a JSON file, enabling users to save them to their device.
+

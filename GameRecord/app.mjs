@@ -1,6 +1,6 @@
 console.log("APP");
 
-//importing the Game class from the models directory
+// Importing the Game class from the models directory
 import Game from './models/Game.mjs';
 
 // In-memory array to store all games
@@ -64,6 +64,7 @@ function importGamesFromJSON(jsonString) {
     }
     // Update the in-memory games array
     games = getAllGamesFromLocalStorage();
+    displayGames(); // Update the UI
 }
 
 // Function to handle file input and import JSON
@@ -93,6 +94,7 @@ function addNewGame(title, designer, artist, publisher, year, players, time, dif
     saveGameToLocalStorage(newGame);
     games = getAllGamesFromLocalStorage(); // Update the in-memory games array
     console.log(`New game "${title}" saved to localStorage:`, newGame);
+    displayGames(); // Update the UI
 }
 
 // Function to download exported games as a JSON file
@@ -107,6 +109,37 @@ function downloadGamesAsJSON() {
     URL.revokeObjectURL(url);
 }
 
+// Function to display all games in the UI
+function displayGames() {
+    const gamesContainer = document.getElementById("gamesContainer"); // Ensure this container exists in index.html
+    gamesContainer.innerHTML = ""; // Clear any existing content
+
+    games.forEach((game) => {
+        // Create a container for the game
+        const gameCard = document.createElement("div");
+        gameCard.classList.add("game-card");
+
+        // Add game details
+        gameCard.innerHTML = `
+            <h3>${game.title}</h3>
+            <p><strong>Designer:</strong> ${game.designer}</p>
+            <p><strong>Artist:</strong> ${game.artist}</p>
+            <p><strong>Publisher:</strong> ${game.publisher}</p>
+            <p><strong>Year:</strong> ${game.year}</p>
+            <p><strong>Players:</strong> ${game.players}</p>
+            <p><strong>Play Time:</strong> ${game.time}</p>
+            <p><strong>Difficulty:</strong> ${game.difficulty}</p>
+            <p><strong>Play Count:</strong> ${game.playCount}</p>
+            <p><strong>Personal Rating:</strong> ${game.personalRating}</p>
+            <input type="range" min="1" max="10" value="${game.personalRating}" class="rating-slider" />
+            <button class="play-button">Play</button>
+        `;
+
+        // Append the game card to the container
+        gamesContainer.appendChild(gameCard);
+    });
+}
+
 // Example usage of adding a new game
 addNewGame("Catan", "Klaus Teuber", "Volkan Baga", "Kosmos", 1995, "3-4", "90 mins", "Medium", "https://example.com", 10, 8);
 
@@ -115,6 +148,9 @@ downloadGamesAsJSON();
 
 // Add event listener to the file input element
 document.getElementById("importSource").addEventListener("change", handleFileImport);
+
+// Display games on page load
+displayGames();
 
 /*
 // Fetch and process the games data
