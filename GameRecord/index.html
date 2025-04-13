@@ -7,11 +7,49 @@
 </head>
 <body>
     <h1>Game Manager</h1>
-    
 
+    <form id="addGameForm">
+        <h2>Add a New Game</h2>
+        <label for="title">Title:</label>
+        <input type="text" id="title" required /><br />
+
+        <label for="designer">Designer:</label>
+        <input type="text" id="designer" required /><br />
+
+        <label for="artist">Artist:</label>
+        <input type="text" id="artist" /><br />
+
+        <label for="publisher">Publisher:</label>
+        <input type="text" id="publisher" required /><br />
+
+        <label for="year">Year:</label>
+        <input type="number" id="year" required /><br />
+
+        <label for="players">Players:</label>
+        <input type="text" id="players" required /><br />
+
+        <label for="time">Play Time:</label>
+        <input type="text" id="time" required /><br />
+
+        <label for="difficulty">Difficulty:</label>
+        <input type="text" id="difficulty" required /><br />
+
+        <label for="url">URL:</label>
+        <input type="url" id="url" /><br />
+
+        <label for="playCount">Play Count:</label>
+        <input type="number" id="playCount" value="0" required /><br />
+
+        <label for="personalRating">Personal Rating:</label>
+        <input type="number" id="personalRating" min="1" max="10" value="5" required /><br />
+
+        <button type="submit">Add Game</button>
+    </form>
+
+    <!-- File input for importing JSON -->
     <input type="file" id="importSource" />
 
-
+    <!-- Container for displaying games -->
     <div id="gamesContainer"></div>
 
     <script type="module" src="./app.mjs"></script>

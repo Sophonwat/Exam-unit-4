@@ -156,8 +156,29 @@ function displayGames() {
     });
 }
 
-// Example usage of adding a new game
-addNewGame("Catan", "Klaus Teuber", "Volkan Baga", "Kosmos", 1995, "3-4", "90 mins", "Medium", "https://example.com", 10, 8);
+// Add event listener to the "Add Game" form
+document.getElementById("addGameForm").addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent the form from refreshing the page
+
+    // Get form values
+    const title = document.getElementById("title").value;
+    const designer = document.getElementById("designer").value;
+    const artist = document.getElementById("artist").value;
+    const publisher = document.getElementById("publisher").value;
+    const year = parseInt(document.getElementById("year").value, 10);
+    const players = document.getElementById("players").value;
+    const time = document.getElementById("time").value;
+    const difficulty = document.getElementById("difficulty").value;
+    const url = document.getElementById("url").value;
+    const playCount = parseInt(document.getElementById("playCount").value, 10);
+    const personalRating = parseInt(document.getElementById("personalRating").value, 10);
+
+    // Add the new game
+    addNewGame(title, designer, artist, publisher, year, players, time, difficulty, url, playCount, personalRating);
+
+    // Clear the form
+    event.target.reset();
+});
 
 // Example usage of exporting games
 downloadGamesAsJSON();

@@ -74,3 +74,28 @@ This allows event listeners to correctly target and update the specific elements
 3. UI Updates with displayGames
 The displayGames function not only renders the game cards but also attaches all necessary event listeners for interactivity.
 nsures that all game data and user actions are reflected in both the interface and localStorage.
+
+
+Step seven
+1. Save, Retrieve, Export, and Import Games:
+Games are saved to and retrieved from localStorage.
+
+2. Games can be exported as JSON or imported from a JSON file.
+Dynamic UI Updates:
+Games are displayed dynamically in the UI.
+
+3. Play count and personal rating can be updated interactively.
+Add New Games:
+Users can add new games dynamically, and the UI updates accordingly.
+
+Step eight
+1. Save, Retrieve, Export, and Import Games:
+Games are saved to and retrieved from localStorage.
+Games can be exported as JSON or imported from a JSON file.
+
+2. Dynamic UI Updates:
+Games are displayed dynamically in the UI.
+Play count and personal rating can be updated interactively.
+
+3. Add New Games:
+Users can add new games dynamically using the form in index.html.
