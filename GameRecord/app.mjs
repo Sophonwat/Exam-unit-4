@@ -114,7 +114,7 @@ function displayGames() {
     const gamesContainer = document.getElementById("gamesContainer"); // Ensure this container exists in index.html
     gamesContainer.innerHTML = ""; // Clear any existing content
 
-    games.forEach((game) => {
+    games.forEach((game, index) => {
         // Create a container for the game
         const gameCard = document.createElement("div");
         gameCard.classList.add("game-card");
@@ -129,14 +129,30 @@ function displayGames() {
             <p><strong>Players:</strong> ${game.players}</p>
             <p><strong>Play Time:</strong> ${game.time}</p>
             <p><strong>Difficulty:</strong> ${game.difficulty}</p>
-            <p><strong>Play Count:</strong> ${game.playCount}</p>
-            <p><strong>Personal Rating:</strong> ${game.personalRating}</p>
-            <input type="range" min="1" max="10" value="${game.personalRating}" class="rating-slider" />
-            <button class="play-button">Play</button>
+            <p><strong>Play Count:</strong> <span id="playCount-${index}">${game.playCount}</span></p>
+            <p><strong>Personal Rating:</strong> <span id="ratingValue-${index}">${game.personalRating}</span></p>
+            <input type="range" min="1" max="10" value="${game.personalRating}" class="rating-slider" id="ratingSlider-${index}" />
+            <button class="play-button" id="playButton-${index}">Play</button>
         `;
 
         // Append the game card to the container
         gamesContainer.appendChild(gameCard);
+
+        // Add event listener for the "Play" button
+        const playButton = document.getElementById(`playButton-${index}`);
+        playButton.addEventListener("click", () => {
+            game.playCount += 1; // Increment play count
+            document.getElementById(`playCount-${index}`).textContent = game.playCount; // Update UI
+            saveGameToLocalStorage(game); // Update localStorage
+        });
+
+        // Add event listener for the rating slider
+        const ratingSlider = document.getElementById(`ratingSlider-${index}`);
+        ratingSlider.addEventListener("input", (event) => {
+            game.personalRating = parseInt(event.target.value, 10); // Update rating
+            document.getElementById(`ratingValue-${index}`).textContent = game.personalRating; // Update UI
+            saveGameToLocalStorage(game); // Update localStorage
+        });
     });
 }
 

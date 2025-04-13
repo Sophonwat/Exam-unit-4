@@ -48,3 +48,29 @@ The default hardcoded example game (e.g., "Catan") was removed, allowing users t
 9. Made Exporting Easy
 A download feature was added to export all current games as a JSON file, enabling users to save them to their device.
 
+Step five:
+1. Added a Function to Display Games (displayGames)
+A function was created to dynamically generate and display each game in the games array. Each game is shown as a visual card containing details such as title, designer, artist, publisher, year, number of players, play time, difficulty, play count, and personal rating.
+Each card also includes a range input for adjusting the rating and a "Play" button to increase the play count.
+
+2. Updated the UI After Changes
+The displayGames function is called whenever the games array is modified, such as after adding a new game or importing games from a JSON file. This keeps the user interface in sync with the current data.
+
+3. Ensured Compatibility with index.html
+The displayGames function relies on a <div id="gamesContainer"></div> being present in the index.html file. This container is required for rendering the game cards on the page.
+
+4. Example Usage
+A sample game (e.g., "Catan") is added dynamically using the addNewGame function. The displayGames function is then called to render the game visually in the browser.
+
+Step six
+1. Added Event Listeners for Play Button and Rating Slider
+The "Play" button increases the play count, updates the UI, and saves the change to localStorage.
+The rating slider updates the personal rating in real time and stores the new value in localStorage.
+
+2. Used Dynamic IDs for Elements
+Each game card element, such as the play count display and rating slider, is assigned a unique ID based on the game’s index in the games array.
+This allows event listeners to correctly target and update the specific elements for each game.
+
+3. UI Updates with displayGames
+The displayGames function not only renders the game cards but also attaches all necessary event listeners for interactivity.
+nsures that all game data and user actions are reflected in both the interface and localStorage.
